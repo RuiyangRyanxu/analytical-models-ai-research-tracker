@@ -2,7 +2,7 @@
 
 > A curated, continuously updated paper archive for researchers working on analytical models, game theory, AI, AI agents, platforms, and strategic behavior.
 
-**公开网站：** https://ruiyangryanxu.github.io/strategy-platform-literature-radar/
+**公开网站：** https://ruiyangryanxu.github.io/analytical-models-ai-research-tracker/
 
 ## 项目目的
 

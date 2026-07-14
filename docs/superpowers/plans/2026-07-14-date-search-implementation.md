@@ -335,7 +335,7 @@ Run:
 
 ```bash
 git -C literature-portal-pages push origin main
-tools/gh_2.94.0_macOS_arm64/bin/gh run watch --repo RuiyangRyanxu/strategy-platform-literature-radar --exit-status
+tools/gh_2.94.0_macOS_arm64/bin/gh run watch --repo RuiyangRyanxu/analytical-models-ai-research-tracker --exit-status
 ```
 
 Expected: 最新 `pages build and deployment` 工作流结论为 `success`。
@@ -345,7 +345,7 @@ Expected: 最新 `pages build and deployment` 工作流结论为 `success`。
 Run:
 
 ```bash
-PORTAL_URL=https://ruiyangryanxu.github.io/strategy-platform-literature-radar/ node tests/browser_qa.cjs
+PORTAL_URL=https://ruiyangryanxu.github.io/analytical-models-ai-research-tracker/ node tests/browser_qa.cjs
 ```
 
 Expected: 公开页面日期默认值、作者搜索、标题搜索、锚点 URL、弹窗与移动布局全部通过。
