@@ -329,7 +329,7 @@ git -C literature-portal-pages diff -- site/index.html site/literature_tracking_
 
 仅提交本功能相关的规格、计划与 `site/` 文件。
 
-- [ ] **Step 5: 推送并等待 Pages 部署**
+- [x] **Step 5: 推送并等待 Pages 部署**
 
 Run:
 
@@ -340,7 +340,7 @@ tools/gh_2.94.0_macOS_arm64/bin/gh run watch --repo RuiyangRyanxu/strategy-platf
 
 Expected: 最新 `pages build and deployment` 工作流结论为 `success`。
 
-- [ ] **Step 6: 对公开 URL 复跑浏览器测试**
+- [x] **Step 6: 对公开 URL 复跑浏览器测试**
 
 Run:
 
