@@ -33,7 +33,7 @@
       line-height: 1.65;
       letter-spacing: 0;
     }
-    button, select { font: inherit; letter-spacing: 0; }
+    button, select, input { font: inherit; letter-spacing: 0; }
     button { color: inherit; }
     a { color: var(--blue); text-underline-offset: 3px; }
     .site-header { background: var(--paper); border-bottom: 1px solid var(--line); }
@@ -52,13 +52,16 @@
     .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
     h2 { margin: 0; font-size: 25px; line-height: 1.25; letter-spacing: 0; }
     .section-heading p { margin: 0; color: var(--muted); }
-    .date-control { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; max-width: 700px; }
+    .date-control { display: grid; grid-template-columns: repeat(3, minmax(92px, 1fr)) auto; gap: 12px; align-items: end; max-width: 760px; }
+    .date-field { display: grid; gap: 6px; }
+    .date-field span { color: var(--muted); font-size: 13px; font-weight: 700; }
     select { width: 100%; min-height: 50px; padding: 0 44px 0 14px; border: 1px solid #aebcc1; border-radius: 6px; background: #fff; color: var(--ink); }
-    .open-latest, .primary-link {
+    .open-latest, .primary-link, .search-button {
       display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 18px;
       border: 0; border-radius: 6px; background: var(--green); color: #fff; font-weight: 700; text-decoration: none; cursor: pointer;
     }
-    .open-latest:hover, .primary-link:hover { background: #10564f; }
+    .open-latest:hover, .primary-link:hover, .search-button:hover { background: #10564f; }
+    button:disabled, select:disabled { cursor: not-allowed; opacity: .55; }
     .archive-list { margin-top: 22px; border-top: 1px solid var(--line); }
     .archive-row {
       width: 100%; display: grid; grid-template-columns: 140px 1fr auto; gap: 20px; align-items: center;
@@ -68,6 +71,19 @@
     .archive-date { font-weight: 760; font-variant-numeric: tabular-nums; }
     .archive-summary { color: var(--muted); }
     .archive-action { color: var(--blue); font-weight: 700; }
+    .search-area { margin-top: 38px; padding-top: 30px; border-top: 1px solid var(--line); }
+    .search-area h3 { margin: 0 0 14px; font-size: 19px; }
+    .search-control { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; max-width: 760px; }
+    .search-control input { width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #aebcc1; border-radius: 6px; background: #fff; color: var(--ink); }
+    .search-control input:focus, select:focus { outline: 3px solid rgba(23, 104, 95, .18); border-color: var(--green); }
+    .search-status { min-height: 24px; margin: 12px 0 0; color: var(--muted); font-size: 13px; }
+    .search-results { max-width: 900px; border-top: 1px solid transparent; }
+    .search-results.has-results { border-top-color: var(--line); }
+    .search-result { display: grid; gap: 4px; padding: 15px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
+    .search-result:hover .search-result-title { color: var(--coral); }
+    .search-result-title { color: var(--blue); font-weight: 760; line-height: 1.4; }
+    .search-result-meta { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     .scope-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .scope-block { padding-top: 16px; border-top: 4px solid var(--green); }
     .scope-block:nth-child(2) { border-top-color: var(--coral); }
@@ -103,7 +119,9 @@
       .header-inner { padding-top: 34px; }
       .band { padding: 34px 0; }
       .section-heading { align-items: start; flex-direction: column; gap: 6px; }
-      .date-control { grid-template-columns: 1fr; }
+      .date-control { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .date-control .open-latest { grid-column: 1 / -1; }
+      .search-control { grid-template-columns: 1fr; }
       .scope-grid, .chart-grid { grid-template-columns: 1fr; }
       .archive-row { grid-template-columns: 1fr auto; gap: 4px 12px; padding: 17px 0; }
       .archive-summary { grid-column: 1 / -1; }
@@ -133,8 +151,10 @@
           <div><h2 id="archive-title">按日期查看报告</h2><p>选择日期后先查看论文分布，再进入完整报告。</p></div>
         </div>
         <div class="date-control">
-          <select id="report-date" aria-label="选择报告日期"><option value="">选择报告日期</option><option value="2026-07-14">2026-07-14</option></select>
-          <button class="open-latest" id="open-latest" type="button">查看最新分布</button>
+          <label class="date-field"><span>年</span><select id="report-year" aria-label="选择报告年份"></select></label>
+          <label class="date-field"><span>月</span><select id="report-month" aria-label="选择报告月份"></select></label>
+          <label class="date-field"><span>日</span><select id="report-day" aria-label="选择报告日期"></select></label>
+          <button class="open-latest" id="open-distribution" type="button">查看分布</button>
         </div>
         <div class="archive-list" id="archive-list">
             <button class="archive-row" type="button" data-report-date="2026-07-14">
@@ -143,6 +163,16 @@
               <span class="archive-action" aria-hidden="true">查看分布 ›</span>
             </button>
             </div>
+        <div class="search-area">
+          <h3>检索论文</h3>
+          <form class="search-control" id="search-form" role="search">
+            <label class="visually-hidden" for="paper-search">按论文题目或作者检索</label>
+            <input id="paper-search" type="search" autocomplete="off" placeholder="篇名关键词或作者姓名">
+            <button class="search-button" type="submit">搜索</button>
+          </form>
+          <p class="search-status" id="search-status" aria-live="polite"></p>
+          <div class="search-results" id="search-results"></div>
+        </div>
       </div>
     </section>
 
@@ -180,13 +210,110 @@
 
   <script>
     const reports = [{"date":"2026-07-14","window":"2026-07-13 10:12 至 2026-07-14 10:15（北京时间 / Asia-Shanghai）","file":"literature_tracking_2026-07-14.html","total":11,"sources":{"ISR":5,"MS":2,"arXiv":4},"types":{"模型 / 机制":3,"AI / 平台实证":7,"概念理论":1},"statuses":{"白名单期刊 online":7,"预印本新增 / 更新":4}}];
-    const reportDate = document.getElementById('report-date');
+    const paperIndex = [{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"hit-gas","title":"Hit the GAS: Designing Optimal Generalized Ad-supported Subscription Mechanisms","authors":"Dominik Gutt（Erasmus RSM；ISR） / Sameer Mehta（Erasmus RSM；ISR） / Martin Quinn（Erasmus RSM；ISR）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"data-evaluation","title":"Data Evaluation: Mechanisms and Implications","authors":"Hong Zheng（北京理工大学；MS、POM） / Lin Tian（复旦大学；MS） / Guo Li（北京理工大学；MS）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"centrality","title":"From Centrality Discounts to Centrality Premia: Interoperability and Platform Competition in Social Networks","authors":"Weiming Li / Jing Sun / Xinxi Song / Bin Wu（首都经济贸易大学，国际经济管理学院；均无已确认记录）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"housing-ai","title":"Generative AI and Price Discrimination in the Housing Market","authors":"Jitsama Tanlamai / Warut Khern-am-nuai / Maxime Cohen（McGill Desautels；均 ISR）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"social-trading","title":"The Interplay of Opinions and Behavior in Social Trading: The Dynamics of Early Cryptocurrency Adoption","authors":"Ye Liu / Mingwen Yang / Yong Tan（University of Washington Foster；ISR） / Matthias Pelster（University of Duisburg-Essen；ISR）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"bounded-rationality","title":"Bounded Rationality in the Digital Age: How Salient Negative Secondhand Information on Knowledge-Sharing Platforms Triggers Investor Mis-Reactions","authors":"Ning Jia / Sean Xin Xu（清华大学；ISR） / Zhitao Yin（HKUST；ISR） / Xiaoquan Michael Zhang（CUHK；ISR）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"ai-adoption","title":"AI Adoption in S&P 500 Firms","authors":"Yang Yu / Martin Fleming / Lucy Hampton / Neil Thompson（MIT FutureTech；均无已确认记录） / Christophe Combemale（Carnegie Mellon University；无已确认记录）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"genai-learning","title":"Experimental Evidence on the Learning Impact of Generative AI","authors":"Zara Contractor（Middlebury College；无已确认记录） / Germán Reyes（Middlebury College、IZA；无已确认记录）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"modularity","title":"Does Modularity Coordinate? Disentangling Decoupling, Interfaces, and Design Rules via Simon’s Theory of the Artifact","authors":"Amrit Tiwana（University of Georgia；ISR）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"executive-tweets","title":"Executive Tweets","authors":"Richard M. Crowley（Singapore Management University；MS） / Wenli Huang（Hang Seng University of Hong Kong；MS） / Hai Lu（University of Toronto、Peking University；MS）"},{"date":"2026-07-14","file":"literature_tracking_2026-07-14.html","id":"dao-voting","title":"Voting Biases in Decentralized Autonomous Organization (DAO) Governance","authors":"Stefano Balietti（Private Sector；无已确认记录） / Pietro Saggese（IMT School for Advanced Studies Lucca、Complexity Science Hub Vienna；无已确认记录） / Markus Strohmaier（University of Mannheim、GESIS、Complexity Science Hub Vienna；无已确认记录）"}];
+    const latestDate = "2026-07-14";
+    const reportYear = document.getElementById('report-year');
+    const reportMonth = document.getElementById('report-month');
+    const reportDay = document.getElementById('report-day');
     const modal = document.getElementById('distribution-dialog');
     const modalTitle = document.getElementById('dialog-title');
     const modalWindow = document.getElementById('dialog-window');
     const modalTotal = document.getElementById('dialog-total');
     const chartRoot = document.getElementById('dialog-charts');
     const reportLink = document.getElementById('report-link');
+    const paperSearch = document.getElementById('paper-search');
+    const searchStatus = document.getElementById('search-status');
+    const searchResults = document.getElementById('search-results');
+    const reportDates = new Set(reports.map(item => item.date));
+
+    function unique(values) {
+      return [...new Set(values)];
+    }
+
+    function replaceOptions(select, values, selectedValue = '') {
+      const optionValues = values.length ? values : [''];
+      select.replaceChildren(...optionValues.map(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value || '—';
+        return option;
+      }));
+      if (selectedValue && values.includes(selectedValue)) {
+        select.value = selectedValue;
+      }
+    }
+
+    function monthsFor(year) {
+      return unique(
+        reports
+          .filter(item => item.date.startsWith(`${year}-`))
+          .map(item => item.date.slice(5, 7))
+      );
+    }
+
+    function daysFor(year, month) {
+      return reports
+        .filter(item => item.date.startsWith(`${year}-${month}-`))
+        .map(item => item.date.slice(8, 10));
+    }
+
+    function updateDays(selectedDay = '') {
+      const days = daysFor(reportYear.value, reportMonth.value);
+      replaceOptions(reportDay, days, selectedDay || days[0]);
+    }
+
+    function updateMonths(selectedMonth = '', selectedDay = '') {
+      const months = monthsFor(reportYear.value);
+      replaceOptions(reportMonth, months, selectedMonth || months[0]);
+      updateDays(selectedDay);
+    }
+
+    function setSelectedDate(value) {
+      const [year = '', month = '', day = ''] = value.split('-');
+      const years = unique(reports.map(item => item.date.slice(0, 4)));
+      replaceOptions(reportYear, years, year || years[0]);
+      updateMonths(month, day);
+    }
+
+    function selectedDate() {
+      const value = `${reportYear.value}-${reportMonth.value}-${reportDay.value}`;
+      return reportDates.has(value) ? value : '';
+    }
+
+    function normalizeSearch(value) {
+      return value.normalize('NFKC').trim().toLocaleLowerCase();
+    }
+
+    function renderSearchResults(query) {
+      const needle = normalizeSearch(query);
+      searchResults.replaceChildren();
+      searchResults.classList.remove('has-results');
+      if (!needle) {
+        searchStatus.textContent = '';
+        return;
+      }
+      const matches = paperIndex.filter(item =>
+        normalizeSearch(`${item.title} ${item.authors}`).includes(needle)
+      );
+      searchStatus.textContent = matches.length
+        ? `找到 ${matches.length} 篇论文`
+        : '未找到匹配论文';
+      if (!matches.length) return;
+      searchResults.classList.add('has-results');
+      matches.forEach(item => {
+        const link = document.createElement('a');
+        link.className = 'search-result';
+        link.href = `${item.file}#${encodeURIComponent(item.id)}`;
+        const title = document.createElement('span');
+        title.className = 'search-result-title';
+        title.textContent = item.title;
+        const meta = document.createElement('span');
+        meta.className = 'search-result-meta';
+        meta.textContent = `${item.date} · ${item.authors}`;
+        link.append(title, meta);
+        searchResults.appendChild(link);
+      });
+    }
 
     function renderBars(title, values) {
       const group = document.createElement('section');
@@ -233,15 +360,28 @@
       modal.showModal();
     }
 
-    reportDate.addEventListener('change', event => {
-      if (event.target.value) openReport(event.target.value);
+    setSelectedDate(latestDate);
+    reportYear.addEventListener('change', () => updateMonths());
+    reportMonth.addEventListener('change', () => updateDays());
+    reportDay.addEventListener('change', () => {
+      const value = selectedDate();
+      if (value) openReport(value);
     });
-    document.getElementById('open-latest').addEventListener('click', () => {
-      if (reports.length) openReport(reports[0].date);
+    document.getElementById('open-distribution').addEventListener('click', () => {
+      const value = selectedDate();
+      if (value) openReport(value);
     });
     document.querySelectorAll('[data-report-date]').forEach(button => {
-      button.addEventListener('click', () => openReport(button.dataset.reportDate));
+      button.addEventListener('click', () => {
+        setSelectedDate(button.dataset.reportDate);
+        openReport(button.dataset.reportDate);
+      });
     });
+    document.getElementById('search-form').addEventListener('submit', event => {
+      event.preventDefault();
+      renderSearchResults(paperSearch.value);
+    });
+    paperSearch.addEventListener('input', () => renderSearchResults(paperSearch.value));
     document.querySelector('.close-dialog').addEventListener('click', () => modal.close());
     modal.addEventListener('click', event => {
       if (event.target === modal) modal.close();

@@ -28,7 +28,7 @@
 - Consumes: 报告 HTML 中的 `article.paper[id]`、`h2.paper-title`、`p.paper-meta` 与报告元数据。
 - Produces: `extract_papers(document: str, report: Dict) -> List[Dict]` 和 `load_search_index(outputs_dir: Path, reports: List[Dict]) -> List[Dict]`。
 
-- [ ] **Step 1: 写索引提取失败测试**
+- [x] **Step 1: 写索引提取失败测试**
 
 ```python
 def test_extract_papers_builds_title_author_and_anchor_index(self):
@@ -46,13 +46,13 @@ def test_extract_papers_builds_title_author_and_anchor_index(self):
     }])
 ```
 
-- [ ] **Step 2: 运行测试并确认因缺少接口失败**
+- [x] **Step 2: 运行测试并确认因缺少接口失败**
 
 Run: `python3 -m unittest tests.test_build_literature_portal.PortalGeneratorTests.test_extract_papers_builds_title_author_and_anchor_index -v`
 
 Expected: `ImportError` 或 `AttributeError` 指向 `extract_papers` 尚不存在。
 
-- [ ] **Step 3: 实现最小 HTMLParser**
+- [x] **Step 3: 实现最小 HTMLParser**
 
 ```python
 class PaperIndexParser(HTMLParser):
@@ -95,7 +95,7 @@ def extract_papers(document: str, report: Dict) -> List[Dict]:
     ]
 ```
 
-- [ ] **Step 4: 增加缺失 ID/标题时跳过并告警的测试与实现**
+- [x] **Step 4: 增加缺失 ID/标题时跳过并告警的测试与实现**
 
 ```python
 document_without_article_id = report_html(
@@ -107,7 +107,7 @@ with self.assertLogs("literature_portal", level="WARNING"):
 self.assertEqual(papers, [])
 ```
 
-- [ ] **Step 5: 运行生成器单元测试**
+- [x] **Step 5: 运行生成器单元测试**
 
 Run: `python3 -m unittest tests.test_build_literature_portal.PortalGeneratorTests -v`
 
@@ -123,7 +123,7 @@ Expected: 所有 `PortalGeneratorTests` 通过。
 - Consumes: `reports: List[Dict]` 和 Task 1 的 `search_index: List[Dict]`。
 - Produces: `render_portal(reports: List[Dict], search_index: Optional[List[Dict]] = None) -> str`。
 
-- [ ] **Step 1: 写首页结构失败测试**
+- [x] **Step 1: 写首页结构失败测试**
 
 ```python
 def test_render_portal_has_split_date_controls_and_search_index(self):
@@ -140,13 +140,13 @@ def test_render_portal_has_split_date_controls_and_search_index(self):
     self.assertNotIn('id="report-date"', document)
 ```
 
-- [ ] **Step 2: 运行测试并确认旧单日期控件导致失败**
+- [x] **Step 2: 运行测试并确认旧单日期控件导致失败**
 
 Run: `python3 -m unittest tests.test_build_literature_portal.PortalGeneratorTests.test_render_portal_has_split_date_controls_and_search_index -v`
 
 Expected: FAIL，缺少 `report-year`、`report-month`、`report-day` 或 `paper-search`。
 
-- [ ] **Step 3: 实现日期控件与默认最新日期**
+- [x] **Step 3: 实现日期控件与默认最新日期**
 
 ```javascript
 const latestDate = reports.length ? reports[0].date : '';
@@ -182,7 +182,7 @@ function selectedDate() {
 setSelectedDate(latestDate);
 ```
 
-- [ ] **Step 4: 实现全站标题/作者搜索**
+- [x] **Step 4: 实现全站标题/作者搜索**
 
 ```javascript
 function normalize(value) { return value.trim().toLocaleLowerCase(); }
@@ -200,7 +200,7 @@ function searchPapers(query) {
 link.href = `${item.file}#${encodeURIComponent(item.id)}`;
 ```
 
-- [ ] **Step 5: 让 build_portal 自动加载索引并运行测试**
+- [x] **Step 5: 让 build_portal 自动加载索引并运行测试**
 
 ```python
 reports = load_reports(outputs_dir, minimum_date)
@@ -222,7 +222,7 @@ Expected: 全部 Python 测试通过。
 - Consumes: `sync_github_pages` 发布的合格报告 HTML。
 - Produces: `_inject_report_target_style(document: str) -> str`，且不重复注入。
 
-- [ ] **Step 1: 写发布报告高亮失败测试**
+- [x] **Step 1: 写发布报告高亮失败测试**
 
 ```python
 published = (public_dir / current_report.name).read_text(encoding="utf-8")
@@ -230,13 +230,13 @@ self.assertIn("article.paper:target", published)
 self.assertEqual(published.count("portal-target-style"), 1)
 ```
 
-- [ ] **Step 2: 运行测试并确认缺少样式失败**
+- [x] **Step 2: 运行测试并确认缺少样式失败**
 
 Run: `python3 -m unittest tests.test_build_literature_portal.PortalGeneratorTests.test_sync_github_pages_publishes_only_index_and_eligible_reports -v`
 
 Expected: FAIL，找不到 `article.paper:target`。
 
-- [ ] **Step 3: 实现幂等样式注入**
+- [x] **Step 3: 实现幂等样式注入**
 
 ```python
 TARGET_STYLE = (
@@ -257,7 +257,7 @@ def _inject_report_target_style(document: str) -> str:
     return f"<head>{TARGET_STYLE}</head>{document}"
 ```
 
-- [ ] **Step 4: 运行全部 Python 测试**
+- [x] **Step 4: 运行全部 Python 测试**
 
 Run: `python3 -m unittest discover -s tests -v`
 
@@ -275,7 +275,7 @@ Expected: 全部测试通过且无异常输出。
 - Consumes: 生成后的本地静态站点与公开 GitHub Pages URL。
 - Produces: 桌面/移动自动化验收证据与公开部署。
 
-- [ ] **Step 1: 更新浏览器测试并先观察旧页面失败**
+- [x] **Step 1: 更新浏览器测试并先观察旧页面失败**
 
 断言包括：
 
@@ -292,7 +292,7 @@ Run: `node tests/browser_qa.cjs`
 
 Expected: FAIL，旧页面找不到三级日期控件或搜索框。
 
-- [ ] **Step 2: 重新生成 Pages 目录**
+- [x] **Step 2: 重新生成 Pages 目录**
 
 Run:
 
@@ -306,7 +306,7 @@ python3 scripts/build_literature_portal.py \
 
 Expected: `Built outputs/index.html with 1 report(s).`
 
-- [ ] **Step 3: 执行完整本地验收**
+- [x] **Step 3: 执行完整本地验收**
 
 Run:
 
@@ -317,7 +317,7 @@ node tests/browser_qa.cjs
 
 Expected: Python 测试全部通过；Playwright 桌面与移动断言通过，无页面或控制台错误。
 
-- [ ] **Step 4: 检查发布差异并提交**
+- [x] **Step 4: 检查发布差异并提交**
 
 Run:
 
