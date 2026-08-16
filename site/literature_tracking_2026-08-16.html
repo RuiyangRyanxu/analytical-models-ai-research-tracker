@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><style id="portal-target-style">article.paper{scroll-margin-top:24px}article.paper:target{outline:3px solid #d79565;outline-offset:8px;animation:portal-target-fade 2.8s ease-out}@keyframes portal-target-fade{0%,45%{background:#fff3cf}100%{background:transparent}}@media(prefers-reduced-motion:reduce){article.paper:target{animation:none;background:#fff3cf}}</style><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2212%22%20fill%3D%22%2317685f%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%223%22%20opacity%3D%22.45%22/%3E%3Cpath%20d%3D%22M32%2032%2051%2019%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2223%22%20r%3D%225%22%20fill%3D%22%23f0a391%22/%3E%3C/svg%3E">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026-08-16 文献追踪（连续窗口与延迟索引补检）</title>
+  <style>
+    :root{--ink:#182027;--muted:#59636c;--line:#dce2e5;--paper:#fff;--wash:#f5f7f7;--green:#196b62;--green-soft:#eaf5f2;--coral:#a94635;--coral-soft:#fff0ec;--gold:#8a6415;--gold-soft:#fff7df;--navy:#294f70;--blue-soft:#edf4fa}*{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;letter-spacing:0}.page{width:min(1120px,calc(100% - 32px));margin:30px auto 70px}header,section,.paper{background:var(--paper);border:1px solid var(--line);border-radius:8px}header{padding:42px 48px 38px;border-top:5px solid var(--green)}section,.paper{margin-top:20px;padding:32px 36px}h1{margin:8px 0;font-size:40px;line-height:1.18;overflow-wrap:anywhere}h2{margin:0 0 14px;font-size:24px;line-height:1.35;overflow-wrap:anywhere}h3{margin:0 0 7px;font-size:17px;line-height:1.4;overflow-wrap:anywhere}p{margin:0 0 12px}a{color:var(--navy);text-underline-offset:3px}.eyebrow{font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase}.scope,.note,.paper-meta{color:var(--muted)}.scope{font-size:17px}.meta-row,.paper-head{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.paper-head{margin:0 0 14px}.tag{display:inline-flex;align-items:center;min-height:28px;padding:4px 9px;border:1px solid var(--line);border-radius:6px;font-size:13px;color:var(--muted);background:#fff}.tag.ok{background:var(--green-soft);color:var(--green);border-color:#c8e3dc}.tag.coral{background:var(--coral-soft);color:var(--coral);border-color:#efcfc6}.tag.blue{background:var(--blue-soft);color:var(--navy);border-color:#cdddea}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}.metric{min-height:90px;padding:14px;border:1px solid var(--line);border-radius:6px}.metric b{display:block;font-size:27px;line-height:1.1;color:var(--coral)}.metric span{display:block;margin-top:7px;color:var(--muted);font-size:13px}.summary,.overview,.guide,.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.summary>div,.overview>div,.guide>div,.model-grid>div,.source-card{padding:16px 17px;background:var(--wash);border-left:4px solid var(--green);border-radius:5px}.overview{grid-template-columns:repeat(2,1fr)}.guide{margin:18px 0}.guide>div{background:#fff;border:1px solid var(--line);border-top:4px solid var(--green)}.guide b,.summary b,.source-card b,.model-grid b{display:block;margin-bottom:6px}.source-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.callout{margin:18px 0 0;padding:16px 18px;border-left:4px solid var(--gold);background:var(--gold-soft);border-radius:5px}.takeaways{margin:15px 0 0;padding-left:22px}.takeaways li{margin-bottom:7px}.paper-title{font-size:27px}.paper-meta{font-size:14px}.detail-body{padding-top:18px}table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}th,td{padding:10px 11px;border:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--wash)}details{margin-top:20px;border-top:1px solid var(--line)}summary{padding-top:16px;font-weight:700;cursor:pointer}.checklist{columns:2;column-gap:28px;margin:0;padding-left:22px}.checklist li{break-inside:avoid;margin-bottom:8px}footer{margin-top:22px;color:var(--muted);font-size:13px;text-align:center}@media(max-width:850px){.page{width:min(100% - 18px,1120px);margin-top:10px}header,section,.paper{padding:24px 20px}h1{font-size:31px}.paper-title{font-size:23px}.metrics,.summary,.overview,.guide,.model-grid,.source-grid{grid-template-columns:1fr}.checklist{columns:1}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <div class="eyebrow">Analytical Models &amp; AI Research Tracker</div>
+    <h1>2026-08-16 文献追踪（连续窗口与延迟索引补检）</h1>
+    <p class="scope">连续检索窗口：2026-08-15 10:00 至 2026-08-16 10:07；同时执行三日滚动回扫（北京时间 / CST / Asia-Shanghai）。</p>
+    <div class="meta-row"><span class="tag ok">白名单期刊事件：2</span><span class="tag ok">SSRN：独立检索完成</span><span class="tag coral">延迟索引补检：2</span><span class="tag">待确认：0</span></div>
+    <div class="metrics"><div class="metric"><b>2</b><span>新增 / 更新总数</span></div><div class="metric"><b>2</b><span>新论文</span></div><div class="metric"><b>2</b><span>白名单期刊 online</span></div><div class="metric"><b>0</b><span>working paper 新事件</span></div></div>
+  </header>
+
+  <section aria-labelledby="summary">
+    <h2 id="summary">Executive Summary</h2>
+    <div class="summary"><div><b>平台排序与消费者 beliefs</b>prominence 不只改变点击成本，也让消费者推断平台掌握的产品质量信息；忽略 beliefs 会把位置效应错误归入 search cost。</div><div><b>平台治理与福利评估</b>短期随机化未必能清除用户既有 beliefs，因此可能显著扭曲对 self-preferencing 和替代 recommendation systems 的 welfare 预测。</div><div><b>在线社区持续参与</b>社区中的情绪影响会跨越原始 thread 和局部关系持续传播，正向互动同时影响后续内容供给与被回应概率。</div></div>
+    <div class="callout"><b>窗口说明。</b>连续窗口内未发现新的 source-date event；本次两篇均由 INFORMS 完整 RSS 的三日回扫发现，publisher feed 日期为 2026-08-12，并在本次完成题名、作者、DOI、摘要和可用全文的交叉核验。</div>
+  </section>
+
+  <section aria-labelledby="quick-read">
+    <h2 id="quick-read">今日速览</h2>
+    <div class="overview">
+      <div><h3>Consumer Inferences from Product Rankings</h3><p><b>作者及记录：</b>Jessica Fong（University of Michigan Ross；Management Science、Marketing Science）、Olivia R. Natan（UC Berkeley；本篇 Management Science）、Ranmit Pantle（Northwestern Kellogg；本篇 Management Science）。</p><p><b>来源 / 主题 / 类型：</b>Management Science；产品排序、平台 steering 与消费者 search；incentivized experiments + structural search model。文章分离位置特定 search cost 与对搜索回报的 beliefs，并评估错误识别对平台排序政策福利结论的影响。</p></div>
+      <div><h3>Ripples of Emotion</h3><p><b>作者及记录：</b>Tongxin Zhou（Arizona State University W. P. Carey；Management Science、ISR）、Jingyi Sun（Stevens Institute of Technology；本篇 ISR）。</p><p><b>来源 / 主题 / 类型：</b>Information Systems Research；在线医疗社区与用户参与；relational event model + complementary experiment。文章追踪正负情绪如何跨互动、thread 与局部社群影响后续回复和被回复。</p></div>
+    </div>
+    <p class="note">作者记录仅报告本次可查来源中已确认的 UTD Top 24、经济学五大刊、JET、RAND 或 AEJ 记录；未列出不代表作者没有其他发表。单位以作者主页、SSRN metadata 或机构页面为准。</p>
+  </section>
+
+  <article class="paper article-card" id="consumer-rankings">
+    <div class="paper-head"><span class="tag blue">1 · Platform ranking design</span><span class="tag coral">延迟索引补检</span><span class="tag">实验与结构模型</span></div>
+    <h2 class="paper-title">Consumer Inferences from Product Rankings: The Role of Beliefs in Search Behavior</h2>
+    <p class="paper-meta">Jessica Fong、Olivia R. Natan、Ranmit Pantle</p>
+    <div class="guide"><div><b>背景及重要性</b>消费者更常搜索高位商品，既可能因为向下滚动和点击更费力，也可能因为他们相信平台把更好的商品排在前面。两种机制对平台改变排序后的行为和 welfare 有不同预测。</div><div><b>文章做了什么和怎么做</b>用两组 incentivized Prolific experiments 操纵排序算法及其披露状态，再估计 sequential search model，将 position-specific costs、beliefs 与 Bayesian learning 分开。</div><div><b>最简单结论</b>cost 与 beliefs 都存在；短期随机排序不能自动识别纯 search cost。若把残留 rank effect 全归因于成本，会严重误判 self-preferencing 的 consumer-surplus 后果。</div></div>
+    <ul class="takeaways"><li>Study 1 的 961 名美国参与者在 Strong、Random 和 Random-Informed 三种条件下完成 10 次付费搜索任务。</li><li>Strong 排序中，从第一位到第十位的搜索率差异约 35% 可归因于 cost、65% 可归因于 beliefs；消费者会通过重复搜索学习算法的信息含量。</li><li>Study 2 在实验中途切换排序规则，发现先前形成的 beliefs 在转为随机排序后仍持续，导致短期随机化继续带有 belief-driven rank effects。</li><li>不考虑 beliefs 的模型预测平台转向偏向自身的排序会使 consumer surplus 损失 3.3%；允许 learning 的模型预测损失为 0.84%，前者约高估四倍。</li><li>识别设计需要让 beliefs 有足够时间更新，或直接测量消费者 beliefs；仅观察随机化后的短期行为不足以获得 policy-invariant search costs。</li></ul>
+    <details open><summary>研究问题、设计、识别与结果</summary><div class="detail-body">
+      <table><tr><th>维度</th><th>全文可核验内容</th></tr><tr><td>研究问题</td><td>产品 prominence 的位置效应中，有多少来自固定的 position-specific search cost，有多少来自消费者对该位置预期搜索回报的 beliefs；错误分解会怎样改变排序政策的福利评估。</td></tr><tr><td>理论机制</td><td>cost 机制在平台改变排序后保持稳定；belief 机制会随消费者对位置与隐藏质量相关性的学习而变化。相同的 observed rank effect 因此对应不同的 counterfactual behavior。</td></tr><tr><td>Study 1</td><td>961 名 Prolific 美国 desktop 用户，随机进入 Strong、Random 或 Random-Informed；每人完成 10 次 incentivized search tasks。Random-Informed 直接告知排序随机，用于识别不含排序质量 beliefs 的位置成本。</td></tr><tr><td>Study 2</td><td>改变排序算法且不向参与者披露，包含 Strong-to-Random 与 Strong-to-Pref 等条件；观察旧 beliefs 在 algorithm switch 后的持续与更新速度。</td></tr><tr><td>结构模型</td><td>基于 Weitzman sequential search，消费者按 reservation utility 搜索并决定停止；Bayesian specification 允许 baseline、position cost 与 rank response 的个体异质性，并在 Study 2 中允许位置 beliefs 更新。</td></tr><tr><td>识别边界</td><td>短期随机化不能同时保证成本识别与 beliefs 已经重置；实验通过 algorithm disclosure、重复任务和规则切换分别提供识别变化。</td></tr><tr><td>主要结果</td><td>Strong 条件下 beliefs 是 rank effect 的主要来源；忽略 beliefs 会高估偏向性排序的 surplus loss，并在某些设定下甚至预测错误方向的 search-cost gradient。</td></tr><tr><td>稳健性与机制</td><td>模型拟合复现 Random-Informed 的 baseline rank effects、Strong 下随时间增强的 rank effects，以及切换排序后特定位置的搜索调整；belief elicitation 和行为随任务变化提供 learning 证据。</td></tr><tr><td>平台含义</td><td>平台和监管者评估 ranking manipulation、steering 或 self-preferencing 时，需要把用户 beliefs 当作会随算法历史演化的状态变量，而不是把所有位置效应当作固定 friction。</td></tr></table>
+      <p><b>原文显式 hypothesis：</b>论文以研究目标、实验预测和模型识别条件组织，未在已核部分列出编号 hypothesis；上述机制与经验预测均来自正文，不改写为原文假设。</p>
+      <p><b>状态与可用性：</b>Management Science，INFORMS feed 于 2026-08-12 记录 online event；DOI 10.1287/mnsc.2025.00761。SSRN 89 页全文已核验，Posted 2024-07-24，Last revised 2026-02-26；作者主页标注 accepted at Management Science。</p>
+      <p><a href="https://doi.org/10.1287/mnsc.2025.00761">Publisher DOI</a> · <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4896993">SSRN 记录与全文</a> · <a href="https://marketing.wharton.upenn.edu/wp-content/uploads/2024/11/11.14.2024-Natan-Olivia-PAPER.pdf">作者公开全文</a></p>
+    </div></details>
+  </article>
+
+  <article class="paper article-card" id="emotion-ripples">
+    <div class="paper-head"><span class="tag blue">2 · Online community engagement</span><span class="tag coral">延迟索引补检</span><span class="tag">网络实证与实验</span></div>
+    <h2 class="paper-title">Ripples of Emotion: Unraveling the Dynamics of Emotion Flows and User Engagement in Online Healthcare Communities</h2>
+    <p class="paper-meta">Tongxin Zhou、Jingyi Sun</p>
+    <div class="guide"><div><b>背景及重要性</b>在线医疗社区依赖持续的 peer support，但既有研究多聚焦同一 post 或 thread 内的即时 emotional response，难以说明情绪是否跨时间和网络继续影响参与。</div><div><b>文章做了什么和怎么做</b>用 HIV 社区的 65,740 次 reply interactions 建立 relational event model，分析接收与表达情绪对后续 engagement 的动态影响，并用补充实验检验 resource-based explanation。</div><div><b>最简单结论</b>正向情绪会形成跨互动的良性反馈，负向情绪会抑制后续回复与正向表达；作用不局限于原 thread、topic 或局部 social cluster。</div></div>
+    <ul class="takeaways"><li>Emotional Resonance Cascades 描述用户先前收到的情绪如何改变其后来对其他人的回复活动与情绪表达。</li><li>Emotional Feedback Exchange 描述用户先前表达的情绪如何改变之后收到回复及回复情绪的概率。</li><li>收到正向情绪提高后续回复活动和正向表达概率；收到负向情绪产生相反作用。</li><li>表达正向情绪提高被回复及收到正向回复的概率；负向表达降低这些结果。</li><li>作用在 feeling-oriented messages 中更强，补充实验表明 mental resources 与对他人 resourcefulness 的判断是与结果一致的机制。</li></ul>
+    <details open><summary>研究问题、数据、识别与结果</summary><div class="detail-body">
+      <table><tr><th>维度</th><th>摘要与公开稿可核验内容</th></tr><tr><td>研究问题</td><td>在线医疗社区中的情绪是否会跨越原始互动，持续改变用户后来对其他成员的参与和情绪表达，并形成网络层面的反馈。</td></tr><tr><td>理论机制</td><td>resource-based perspective 下，收到情绪改变个体可用于后续互动的 mental resources；观察和表达情绪也改变他人对其 resourcefulness 的判断。</td></tr><tr><td>数据与样本</td><td>一个在线 HIV 社区中的 65,740 次 reply interactions；reply ties 构成动态社会网络。</td></tr><tr><td>核心变量</td><td>用户此前收到和表达的正负 sentiment、后续 reply activity、后续表达正向 sentiment 的概率、被回复概率及收到回复的 sentiment。</td></tr><tr><td>方法</td><td>relational event modeling 处理带时间顺序的互动事件，并把谁向谁回复、此前情绪暴露与后续事件发生联系起来。</td></tr><tr><td>主要结果</td><td>正向情绪提高后续参与与正向互动，负向情绪降低这些结果；接收与表达两条路径均得到支持。</td></tr><tr><td>机制与边界检验</td><td>结果跨 topics、threads 和 local social clusters 存在，feeling-oriented messages 下更强；补充实验显示情绪消息影响 mental resources 和对他人 resourcefulness 的感知。</td></tr><tr><td>平台含义</td><td>社区治理不应只处理单个 thread 内的即时 tone；促进正向、支持性回复可能通过动态网络反馈改善留存与 peer support。</td></tr></table>
+      <p><b>原文显式 hypothesis：</b>已公开摘要没有列编号 hypothesis。以上两类 emotion-flow mechanisms 是作者明确提出并检验的理论路径，不将其改写为编号假设。</p>
+      <p><b>识别边界：</b>relational event model 识别动态关联并控制网络事件历史，但公开摘要不足以确认完整 specification 和所有 causal assumptions；补充实验提供与 resource mechanism 一致的证据，不把观察性主结果表述为完全外生冲击。</p>
+      <p><b>状态与可用性：</b>Information Systems Research，INFORMS feed 于 2026-08-12 记录 online event；DOI 10.1287/isre.2023.0724。早期 SSRN 稿题为 <i>Decoding Emotion Flow Dynamics in Online Healthcare Communities</i>，Posted 2024-05-15，38 页全文可用。</p>
+      <p><a href="https://doi.org/10.1287/isre.2023.0724">Publisher DOI</a> · <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4827788">SSRN 记录与全文</a></p>
+    </div></details>
+  </article>
+
+  <section aria-labelledby="sources">
+    <h2 id="sources">来源、领域与状态概览</h2>
+    <div class="source-grid"><div class="source-card"><b>来源</b>Management Science 1 条、Information Systems Research 1 条；两项 journal online 记录均属于 UTD Top 24。</div><div class="source-card"><b>状态</b>连续窗口直接事件 0 篇、三日回扫延迟索引 2 篇；均为首次进入本追踪报告的新论文，无旧稿实质更新。</div><div class="source-card"><b>SSRN 独立检索</b>已分别覆盖 OM、operations management、supply chain、platform、marketplace、digital platform、information systems、IS、marketing、AI、artificial intelligence、AI agent、LLM、game theory、strategic、mechanism、industrial organization 与 IO。未发现可由 SSRN source date 核实为本窗口新发或修订的条目。</div><div class="source-card"><b>其他来源</b>INFORMS 六刊完整 RSS、Crossref publication-date 回扫、arXiv 官方页面、NBER、CEPR、IZA、作者主页及会议页均已检查；未发现需要在直接窗口计数的新事件。</div></div>
+  </section>
+
+  <section aria-labelledby="audit">
+    <h2 id="audit">最终审核清单</h2>
+    <ul class="checklist"><li>两条 journal online 事件均来自 UTD Top 24：Management Science 与 ISR。</li><li>非白名单期刊未计数、未列待确认，也未因 publisher 或 Crossref 日期触发收录。</li><li>INFORMS 六刊完整 RSS 已扫描，并执行 DOI 与 publisher event 三日回扫。</li><li>SSRN 已独立覆盖全部规定关键词，并核对两篇早期稿的 Posted、Last revised、摘要与全文可用性。</li><li>arXiv、NBER、CEPR、IZA、作者页与会议页已回扫；无符合直接窗口的新事件。</li><li>同一论文按 DOI、题名与作者去重；早期 SSRN 稿与期刊版合并为单条。</li><li>作者单位按作者主页、SSRN metadata 与机构页面逐一核查；publication record 使用限定措辞。</li><li>每篇均含固定三格读前导览与 5 条 takeaways。</li><li>实证文章核对研究问题、理论机制、数据、样本、核心变量、识别方法、主要结果、机制与边界。</li><li>未核到编号 hypothesis 时明确说明，不将经验预测冒充原文假设。</li><li>未出现未经来源支持的公式、effect size 或 causal claim。</li><li>所有日期均使用北京时间 / CST / Asia-Shanghai 标注或明确说明 publisher feed 日期。</li></ul>
+    <div class="callout"><b>日期机制。</b>日常窗口以 source publication / submission event 为准；三日回扫用于捕获 publisher feed、DOI 和分类页的延迟显现。Crossref 登记日期只用于辅助发现，不能替代 working-paper source page 的 posted / revised 日期。</div>
+  </section>
+
+  <footer>生成时间：2026-08-16 10:07（北京时间 / CST / Asia-Shanghai）</footer>
+</main>
+<script type="application/json" id="report-metadata">
+{"date":"2026-08-16","window":"2026-08-15 10:00 至 2026-08-16 10:07；另含三日滚动回扫（北京时间 / CST / Asia-Shanghai）","file":"literature_tracking_2026-08-16.html","total":2,"sources":{"Management Science":1,"Information Systems Research":1},"types":{"Empirical / structural":2},"statuses":{"延迟索引补检":2}}
+</script>
+</body>
+</html>
